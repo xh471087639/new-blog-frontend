@@ -1,4 +1,4 @@
-import './assets/main.css'
+import './assets/style/reset.less';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -6,7 +6,6 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 
-import './assets/style/reset.less';
 
 const app = createApp(App)
 
