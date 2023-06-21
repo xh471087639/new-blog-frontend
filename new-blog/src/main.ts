@@ -2,10 +2,11 @@ import './assets/style/reset.less';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import 'amfe-flexible';
+
 
 import App from './App.vue';
 import router from './router';
-
 
 const app = createApp(App)
 
