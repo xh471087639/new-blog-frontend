@@ -6,10 +6,17 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import postCssPxToRem from 'postcss-pxtorem';
 import autoprefixer from 'autoprefixer';
 
+const { VantResolver } = require('unplugin-vue-components/resolvers');
+const Components = require('unplugin-vue-components/vite');
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
         vue(),
+        Components({
+            dirs: ['src'],
+            resolvers: [VantResolver()],
+        }),
         vueJsx(),
     ],
     css: {
@@ -27,7 +34,9 @@ export default defineConfig({
         preprocessorOptions: {
             less: {
                 charset: false,
-                additionalData: '@import "./src/assets/style/global.less";',
+                additionalData: '@import "./src/assets/style/global.less";@import "./src/assets/style/iconfont.less";',
+                javascriptEnabled: true,/*这个可以解决less方法无法执行的问题*/
+                rewriteUrls:'all'/*这个解决字体图标无法显示的问题*/
             },
         },
     },

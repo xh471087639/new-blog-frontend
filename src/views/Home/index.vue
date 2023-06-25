@@ -1,12 +1,12 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  <div class="home">
-
-  </div>
+    <div class="home">
+        <Nav/>
+    </div>
 </template>
+
+<script setup lang="ts">
+import Nav from '@/components/Nav/index.vue';
+</script>
 
 <style scoped lang="less">
 
