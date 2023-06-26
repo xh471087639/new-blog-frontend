@@ -8,5 +8,6 @@
       "path": "./tsconfig.app.json"
     }
   ],
-  "include": ["src/**", "./components.d.ts"]
+  "include": ["src/**", "./components.d.ts"],
+  "lib": ["vant/es/index.d.ts"],
 }

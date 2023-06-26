@@ -18,7 +18,7 @@
         </div>
         <transition name="expend">
             <div class="search-loading" >
-                <Lottie class="lottie-loading" :type="lottieType" width="100%" height="80px" color="#fff"/>
+                <Lottie class="lottie-loading" :type="lottieType" width="100%" height="80px" color="#ffffff"/>
             </div>
         </transition>
         <transition name="expend">

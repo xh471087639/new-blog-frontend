@@ -35,7 +35,7 @@ class Request {
             (response) => {
                 const {responseSuccess} = this.customConfig;
                 const data = response.data || {};
-                if (response.status === 200 && data.result === 1) {
+                if ((response.status === 200 && data.result === 1) || data.result === undefined) {
                     return typeof responseSuccess === 'function' ? responseSuccess(data) : data;
                 } else {
                     return _this.rejectHandler(response, true);
