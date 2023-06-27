@@ -8,6 +8,26 @@
       "path": "./tsconfig.app.json"
     }
   ],
-  "include": ["src/**", "./components.d.ts"],
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": false,
+    "sourceMap": true,
+    "skipLibCheck": true /* Skip type checking of declaration files. */,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  },
+  "include": ["src/**/*", "src/**/*.vue", "./components.d.ts"],
   "lib": ["vant/es/index.d.ts"],
 }

@@ -31,8 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, ref, useSlots, computed } from 'vue';
-import { ISuggestItem } from "@/components/Nav/const";
+import { ref, useSlots, computed } from 'vue';
+import type { ISuggestItem } from "@/components/Nav/const";
 import Lottie from "@/components/Lottie/index.vue";
 import { ELottieType } from "@/components/Lottie/const";
 
@@ -58,7 +58,7 @@ const lottieType = ref(ELottieType.loading);
 
 const hasExtraContent = computed(() => Boolean(slot['extra-content']));
 
-const changeFocusStatus = (value)=>{
+const changeFocusStatus = (value: boolean)=>{
     isFocus.value = value;
 }
 const searchInput = () => {

@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults } from 'axios';
+import axios from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, CreateAxiosDefaults }  from 'axios';
 
 export interface IRequestConfig<T = any> {
     responseSuccess?: (data: T) => T | Promise<T>;

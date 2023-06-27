@@ -17,7 +17,7 @@ export function hexToFloatArray(hex: string) {
 }
 
 // 将 RGB 颜色转换为 0-1 浮点数数组
-export function rgbToFloatArray(rgb) {
+export function rgbToFloatArray(rgb: string) {
     // 提取红、绿、蓝部分的数值
     const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     if (!match) {
@@ -32,7 +32,7 @@ export function rgbToFloatArray(rgb) {
 }
 
 // 将 RGBA 颜色转换为 0-1 浮点数数组
-export function rgbaToFloatArray(rgba) {
+export function rgbaToFloatArray(rgba: string) {
     // 提取红、绿、蓝、透明度部分的数值
     const match = rgba.match(/^rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)$/);
     if (!match) {

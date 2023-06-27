@@ -5,20 +5,30 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import postCssPxToRem from 'postcss-pxtorem';
 import autoprefixer from 'autoprefixer';
+import rollupPluginVisualizer from 'rollup-plugin-visualizer';
 
 const { VantResolver } = require('unplugin-vue-components/resolvers');
 const Components = require('unplugin-vue-components/vite');
 
+const isAnalyze = process.env.OPTION_TYPE === 'analyze';
+
+const pluginList = [
+    vue(),
+    Components({
+        dirs: ['src'],
+        resolvers: [VantResolver()],
+    }),
+    vueJsx(),
+];
+isAnalyze && pluginList.push(rollupPluginVisualizer({
+    emitFile: false,
+    file: "./dist/stats.html", //分析图生成的文件名
+    open:true //如果存在本地服务端口，将在打包后自动展示
+}));
+
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [
-        vue(),
-        Components({
-            dirs: ['src'],
-            resolvers: [VantResolver()],
-        }),
-        vueJsx(),
-    ],
+    plugins: pluginList,
     css: {
         postcss: {
             plugins: [

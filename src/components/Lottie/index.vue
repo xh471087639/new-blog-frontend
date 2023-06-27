@@ -2,12 +2,13 @@
     <div class="lottieAnimationItem" ref="animation" :style="{ width, height }"></div>
 </template>
 
-<script>
+<script lang="ts">
 
 import { defineComponent, ref, onMounted, watch } from 'vue'
 
-import lottie, { AnimationItem } from 'lottie-web'
-import { changeLottieColor, LOTTIE_MAP } from "./const";
+import lottie from 'lottie-web'
+import type { AnimationItem } from 'lottie-web'
+import { changeLottieColor, ELottieType, LOTTIE_MAP } from "./const";
 import { requireFile } from "@/utils/files";
 import request from "@/api/request";
 
@@ -23,8 +24,7 @@ export default defineComponent({
             default: '100px',
         },
         type: {
-            type: [Number, null],
-            default: null,
+            type: Number,
         },
         color: {
             type: String,
@@ -39,16 +39,17 @@ export default defineComponent({
         },
     },
     setup(props) {
-        let animation = ref(null);
-        let lottieInstantiation = ref<AnimationItem>(null);
+        let animation = ref<Element | null>(null);
+        let lottieInstantiation = ref<AnimationItem | null>(null);
 
         const initLottieInstantiation = async () => {
-            if (lottieInstantiation) lottieInstantiation.destroy();
-            const sourceUrl = requireFile(LOTTIE_MAP[props.type], import.meta.url);
+            if (!animation.value || !props.type || !LOTTIE_MAP[props.type as ELottieType]) return;
+            if (lottieInstantiation) lottieInstantiation.value?.destroy();
+            const sourceUrl = requireFile(LOTTIE_MAP[props.type as ELottieType], import.meta.url);
             const data = await request.get(sourceUrl);
             const handleData = props.color ? changeLottieColor(data, props.color) : data;
-            lottieInstantiation = lottie.loadAnimation({
-                container: animation.value,
+            lottieInstantiation.value = lottie.loadAnimation({
+                container: animation.value as Element,
                 renderer: "svg",
                 loop: props.loop,
                 autoplay: props.autoplay,
@@ -56,8 +57,8 @@ export default defineComponent({
             })
         }
 
-        watch(props.type, initLottieInstantiation);
-        watch(props.color, () => lottieInstantiation && changeLottieColor(lottieInstantiation, props.color));
+        watch(() => props.type, initLottieInstantiation);
+        watch(() => props.color, initLottieInstantiation);
 
         onMounted(() => animation.value && initLottieInstantiation());
 

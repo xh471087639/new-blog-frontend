@@ -1,2 +1,2 @@
 // 引入
-export const requireFile = (path, root) => new URL(path, root).href;
+export const requireFile = (path: string, root: string) => new URL(path, root).href;

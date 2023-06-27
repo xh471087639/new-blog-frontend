@@ -1,4 +1,3 @@
-import { AnimationItem } from "lottie-web";
 import { hexToFloatArray, rgbaToFloatArray, rgbToFloatArray } from "@/utils/color";
 import { traverseToBasicTypes } from "@/utils/default";
 
