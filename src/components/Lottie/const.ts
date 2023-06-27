@@ -2,7 +2,7 @@ import { hexToFloatArray, rgbaToFloatArray, rgbToFloatArray } from "@/utils/colo
 import { traverseToBasicTypes } from "@/utils/default";
 
 export enum ELottieType {
-    loading,
+    loading = 1,
 }
 
 export const LOTTIE_MAP = {

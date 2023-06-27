@@ -7,6 +7,12 @@ export interface IRequestConfig<T = any> {
     requestConfig?: (data: T) => T | Promise<T>;
 }
 
+export interface IBaseRes<T = any> {
+    result: number,
+    msg?: string;
+    data: T;
+}
+
 /** 请求方法封装 */
 class Request {
     private instance: AxiosInstance;

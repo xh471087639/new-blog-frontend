@@ -1,40 +1,21 @@
 <template>
-    <div class="nav">
-        <div class="options">
-            <div class="more iconfont icon-all" />
-            <div class="search" :class="isFocus?'expend-width':''">
-                <van-search
-                    v-model="searchContent"
-                    left-icon=""
-                    placeholder="请输入搜索关键词"
-                    shape="round"
-                    background="transparent"
-                    clearable
-                    :onFocus="()=>changeFocusStatus(true)"
-                    :onBlur="()=>changeFocusStatus(false)"
-                    :onUpdate-modelValue="searchInput"
-                />
-            </div>
-        </div>
-        <transition name="expend">
-            <div class="search-loading" >
-                <Lottie class="lottie-loading" :type="lottieType" width="100%" height="80px" color="#ffffff"/>
-            </div>
-        </transition>
-        <transition name="expend">
-            <div v-show="!foldStatus && hasExtraContent" slot="extra-content" />
-        </transition>
-        <div class="fold-option" v-if="hasExtraContent" onclick="foldStatus=!foldStatus">
-            <i class="iconfont icon-down" :class="foldStatus ? '':'trans180Deg'" />
+    <div class="applicationList">
+        <div
+            v-for="(item) in handleAppListInfo"
+            :key="item.path"
+            class="appItem"
+            :style="item.customStyle"
+            :onClick="()=>toApp(item)"
+        >
+            {{ item.title }}
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, useSlots, computed } from 'vue';
-import type { ISuggestItem } from "@/components/Nav/const";
-import Lottie from "@/components/Lottie/index.vue";
-import { ELottieType } from "@/components/Lottie/const";
+import { ref, useSlots, computed, CSSProperties } from 'vue';
+import { APP_LIST_INFO, IAppItemInfo } from "./const";
+import { useRouter } from "vue-router";
 
 const slot = useSlots();
 
@@ -43,117 +24,65 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    suggest: {
-        type: Array,
-        default: () => [] as ISuggestItem[]
-    }
 })
 
-const emit = defineEmits(['search', 'more', 'fold', 'spread']);
+const appListInfo = ref<IAppItemInfo[]>(APP_LIST_INFO);
+const router = useRouter();
 
-const foldStatus = ref(true);
-const searchContent = ref('');
-const isFocus = ref(false);
-const lottieType = ref(ELottieType.loading);
+const handleAppListInfo = computed<(IAppItemInfo & {customStyle: CSSProperties})[]>(() => {
+    const nowRouterPath = router.currentRoute.value.name.toString();
+    return appListInfo.value.map((item) => {
+        const isActive = nowRouterPath.includes(item.path);
+        return {
+            ...item,
+            active: isActive,
+            customStyle: {
+                backgroundColor: isActive ? 'transparent' :item.bgColor,
+                border: isActive ? `1px solid ${item.activeColor}` : undefined,
+                color: isActive ? item.activeColor : undefined
+            }
+        }
+    })
+})
 
-const hasExtraContent = computed(() => Boolean(slot['extra-content']));
-
-const changeFocusStatus = (value: boolean)=>{
-    isFocus.value = value;
-}
-const searchInput = () => {
-    console.log('3333');
+const toApp = (item: IAppItemInfo) => {
+    router.push(`/${item.path}`);
 }
 
 
 </script>
 
 <style scoped lang="less">
-.nav {
+.applicationList {
     display: flex;
-    background-color: rgba(37, 38, 45, 1);
-    border-bottom-right-radius: 16px;
-    border-bottom-left-radius: 16px;
-    flex-direction: column;
-    padding: 6px 12px 8px;
+    flex-direction: row;
+    //border: 1px solid;
+    //border-image: -webkit-linear-gradient(right, white, rgba(255, 255, 255, 0.4));
+    //border-image-slice: 10;
+    //border-image-width: 1;
+    justify-content: space-between;
+    padding: 6px;
+    border-radius: 8px;
+    overflow: hidden;
 
-    .options {
+    .appItem {
         display: inline-flex;
-        flex-direction: row;
-        justify-content: space-between;
+        border-radius: 4px;
+        height: 46px;
         align-items: center;
-
-        .more {
-            display: inline-flex;
-            font-size: 28px;
-            color: white;
-            margin-right: 16px;
-        }
-
-        .search {
-            display: inline-flex;
-            justify-content: flex-end;
-            transition: width ease 0.3s;
-            width: 200px;
-            &.expend-width{
-                width: calc(100% - 40px);
-            }
-
-            /deep/ .van-search{
-                width: 100%;
-                .van-search__content {
-                    border: 1px solid white;
-                    background-color: transparent;
-
-                    .van-field__control {
-                        color: white;
-                    }
-                }
-            }
-        }
-    }
-    .search-loading{
-        display: inline-flex;
-        justify-content: center;
-        position: relative;
-        height: 24px;
-        margin-top: 8px ;
-        overflow: hidden;
-        .lottie-loading{
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-        }
-    }
-
-    .fold-option {
-        .topHalfLine();
-        display: inline-flex;
-        justify-content: center;
-        flex-direction: row;
+        font-size: 12px;
+        padding: 0 6px;
+        flex: 1;
+        margin-right: 12px;
         color: white;
 
-        &.trans180Deg {
-            transform: rotate(180deg);
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &.active {
+
         }
     }
-
-}
-
-
-.expend-enter-active,
-.expend-leave-active {
-    transition: height ease 0.3s;
-}
-
-.expend-enter,
-.expend-leave-to {
-    height: 0;
-}
-
-.expend-enter-to,
-.expend-leave {
-    height: 164px;
 }
 </style>

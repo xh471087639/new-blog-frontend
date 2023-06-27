@@ -9,11 +9,15 @@ declare module 'vue' {
   export interface GlobalComponents {
     App: typeof import('./src/App.vue')['default']
     ApplicationList: typeof import('./src/components/ApplicationList/index.vue')['default']
+    BlogCard: typeof import('./src/views/Home/components/BlogCard.vue')['default']
     Home: typeof import('./src/views/Home/index.vue')['default']
     Lottie: typeof import('./src/components/Lottie/index.vue')['default']
     Nav: typeof import('./src/components/Nav/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanSearch: typeof import('vant/es')['Search']
+    VanSwipe: typeof import('vant/es')['Swipe']
+    VanSwipeItem: typeof import('vant/es')['SwipeItem']
   }
 }
